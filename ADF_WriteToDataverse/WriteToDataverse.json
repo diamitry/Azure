@@ -1,0 +1,9 @@
+CRMAccountExtract derive(AccountGuid = accountid,
+		AccountIDlookuplogicname = "account") ~> MapToCRM
+MapToCRM select(mapColumn(
+		accountid,
+		AccountIDlookuplogicname,
+		AccountName = account_name,
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> AlterRow
