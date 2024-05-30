@@ -1,0 +1,86 @@
+{
+    "name": "Copy Account to CRM",
+    "type": "Copy",
+    "dependsOn": [
+        {
+            "activity": "Copy Account to CRM",
+            "dependencyConditions": [
+                "Succeeded"
+            ]
+        }
+    ],
+    "policy": {
+        "timeout": "0.1:00:00",
+        "retry": 0,
+        "retryIntervalInSeconds": 60,
+        "secureOutput": false,
+        "secureInput": false
+    },
+    "userProperties": [],
+    "typeProperties": {
+        "source": {
+            "type": "ParquetSource",
+            "storeSettings": {
+                "type": "AzureBlobFSReadSettings",
+                "recursive": true,
+                "wildcardFolderPath": "CRMAccount",
+                "wildcardFileName": "*.parquet",
+                "enablePartitionDiscovery": false
+            },
+            "formatSettings": {
+                "type": "ParquetReadSettings"
+            }
+        },
+        "sink": {
+            "type": "CDSForApps",
+            "writeBatchSize": 20,
+            "writeBehavior": "upsert"
+        },
+        "enableStaging": false,
+        "enableSkipIncompatibleRow": true,
+        "logSettings": {
+            "enableCopyActivityLog": true,
+            "copyActivityLogSettings": {
+                "logLevel": "Info",
+                "enableReliableLogging": false
+            },
+            "logLocationSettings": {
+                "linkedServiceName": {
+                    "referenceName": "Datalake",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        },
+        "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+                {
+                    "source": {
+                        "name": "accountid",
+                        "type": "String",
+                        "physicalType": "UTF8"
+                    },
+                    "sink": {
+                        "name": "accountid",
+                        "type": "Guid"
+                    }
+                },
+                {
+                    "source": {
+                        "name": "AccountIDlookuplogicname",
+                        "type": "String",
+                        "physicalType": "UTF8"
+                    },
+                    "sink": {
+                        "name": "accountid@EntityReference"
+                    }
+                },
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+                "allowDataTruncation": true,
+                "treatBooleanAsNumber": false
+            }
+        }
+    ]
+}
