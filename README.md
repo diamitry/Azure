@@ -5,6 +5,6 @@
 
 <h3 align="left">Azure Data Factory:</h3>
 <ul>
-  <li>How to write into the Dataverse: <a href="https://github.com/diamitry/Azure">copy into the dataverse.</a>
+  <li>How to write polymorphic lookups into the Dataverse: <a href="https://github.com/diamitry/Azure/tree/fed5fa0897d3e6d6953e56841a164e6237cc424b/ADF_WriteToDataverse">write into the Dataverse.</a>
   </li>
 </ul>
